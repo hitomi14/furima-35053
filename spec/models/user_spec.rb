@@ -41,6 +41,9 @@ RSpec.describe User, type: :model do
       it '重複したemailが存在する場合登録できない' do
       end
 
+      it 'emailは@がないと登録できない' do
+      end
+
       it 'passwordが5文字以下では登録できない' do
       end
 
