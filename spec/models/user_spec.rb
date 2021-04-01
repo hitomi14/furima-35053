@@ -47,25 +47,25 @@ RSpec.describe User, type: :model do
       it 'first_nameが空では登録できない' do
         @user.first_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("First name can't be blank","First name Full-width characters")
+        expect(@user.errors.full_messages).to include("First name can't be blank")
       end
 
       it 'family_nameが空では登録できない' do
         @user.family_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("Family name can't be blank","Family name Full-width characters")
+        expect(@user.errors.full_messages).to include("Family name can't be blank")
       end
 
       it 'first_name_kanaが空では登録できない' do
         @user.first_name_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("First name kana can't be blank", "First name kana Full-width katakana characters")
+        expect(@user.errors.full_messages).to include("First name kana can't be blank")
       end
 
       it 'family_name_kanaが空では登録できない' do
         @user.family_name_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("Family name kana can't be blank", "Family name kana Full-width katakana characters")
+        expect(@user.errors.full_messages).to include("Family name kana can't be blank")
       end
 
       it 'first_nameは全角（漢字・ひらがな・カタカナ）でないと登録できない' do
@@ -131,6 +131,20 @@ RSpec.describe User, type: :model do
         @user.password_confirmation = '1234567'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password Include both letters and numbers")
+      end
+
+      it 'password:全角英数混合では登録できない' do
+        @user.password = 'ＡＡＡ１２３'
+        @user.password_confirmation = 'ＡＡＡ１２３'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password Include both letters and numbers")
+      end
+
+      it "password_confirmation:passwordとpassword_confirmationが一致しない場合、登録できない" do
+        @user.password = 'abc123'
+        @user.password_confirmation = '123abc'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
     end
   end
