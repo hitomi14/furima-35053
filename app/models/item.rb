@@ -8,4 +8,21 @@ class Item < ApplicationRecord
   belongs_to :shipping_cost
   belongs_to :area
   belongs_to :shipping_days
+
+  with_options presence: true do
+    validates :name
+    validates :description
+  end
+
+  with_options presence: true, numericality: { other_than: 1 } do
+    validates :category_id
+    validates :status_id
+    validates :shipping_cost
+    validates :area
+    validates :shipping_days
+  end
+
+  validates :price, format: { with: /\A[0-9]+\z/, message: 'Half-width number' },
+  numericality: { greater_than: 299, less_than: 10000000, message: 'Out of setting range' }
+
 end
