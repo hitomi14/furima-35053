@@ -10,6 +10,7 @@ class PurchaseDestination
     validates :token
     validates :user_id
     validates :item_id
+    validates :area_id, numericality: { other_than: 1 }
   end
 
   def save
