@@ -5,12 +5,10 @@ class PurchasesController < ApplicationController
     @purchase_destination = PurchaseDestination.new
   end
 
-  def new
-  end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_destination = PurchaseDestination.new(purchase_params)
+    @item = Item.find(params[:item_id])
     if @purchase_destination.valid?
       @purchase_destination.save
       redirect_to root_path
