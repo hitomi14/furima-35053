@@ -3,17 +3,12 @@ class PurchasesController < ApplicationController
   before_action :move_to_index, only: [:index, :create]
 
   def index
-    @item = Item.find(params[:item_id])
     @purchase_destination = PurchaseDestination.new
-    if current_user == @item.user
-      redirect_to root_path
-    end
   end
 
 
   def create
     @purchase_destination = PurchaseDestination.new(purchase_params)
-    @item = Item.find(params[:item_id])
     if @purchase_destination.valid?
       pay_item
       @purchase_destination.save

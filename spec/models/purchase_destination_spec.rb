@@ -62,10 +62,34 @@ RSpec.describe PurchaseDestination, type: :model do
       expect(@purchase_destination.errors.full_messages).to include("Phone number can't be blank")
     end
 
+    it 'phone_numberが12桁以上だと保存できないこと' do
+      @purchase_destination.phone_number = 123456789101
+      @purchase_destination.valid?
+      expect(@purchase_destination.errors.full_messages).to include("Phone number is invalid")
+    end
+
+    it 'phone_numberにハイフンがある場合は保存できない(090-1234-5678など)' do
+      @purchase_destination.phone_number = 190-1234-5678
+      @purchase_destination.valid?
+      expect(@purchase_destination.errors.full_messages).to include("Phone number is invalid")
+    end
+
     it 'tokenが空では保存できないこと' do
       @purchase_destination.token = nil
       @purchase_destination.valid?
       expect(@purchase_destination.errors.full_messages).to include("Token can't be blank")
+    end
+
+    it 'user_idがない場合は保存できない' do
+      @purchase_destination.user_id = nil
+      @purchase_destination.valid?
+      expect(@purchase_destination.errors.full_messages).to include("User can't be blank")
+    end
+
+    it 'item_idがない場合は保存できない' do
+      @purchase_destination.item_id = nil
+      @purchase_destination.valid?
+      expect(@purchase_destination.errors.full_messages).to include("Item can't be blank")
     end
   end
 end
